@@ -1,4 +1,9 @@
-# PyTorch-Pose
+# What is this branch for?
+This branch, **feature-extraction**, is aimed for using **Stacked Hourglass Nets** as a pose feature extraction component in an end-to-end training model. Currently it is still in experimenting stage.
+
+
+
+# PyTorch-Pose(Original repo)
 
 PyTorch-Pose is a PyTorch implementation of the general pipeline for 2D single human pose estimation. The aim is to provide the interface of the training/inference/evaluation, and the dataloader with various data augmentation options for the most popular human pose databases (e.g., [the MPII human pose](http://human-pose.mpi-inf.mpg.de), [LSP](http://www.comp.leeds.ac.uk/mat4saj/lsp.html) and [FLIC](http://bensapp.github.io/flic-dataset.html)).
 
