@@ -1,5 +1,3 @@
-from __future__ import print_function, absolute_import
-
 import torch
 import torch.nn as nn
 
@@ -7,13 +5,12 @@ import pose.models as models
 import pose.datasets as datasets
 
 
-
 # parameters
 arch = 'hg'
-stacks = 1
+stacks = 8
 blocks = 1
 classes = 16
-weights_path = '/home/ubuntu/cvlab/meego/pytorch-pose/pretrained_weights/hg_s1_b1/model_best.pth.tar'
+weights_path = '/home/ubuntu/cvlab/meego/pytorch-pose/pretrained_weights/hg_s8_b1/model_best.pth.tar'
 
 # construct the base Stacked Hourglass Nets model
 stacked_hourglass_nets = models.__dict__[arch](num_stacks=stacks, num_blocks=blocks, num_classes=classes)
@@ -23,7 +20,6 @@ stacked_hourglass_nets.load_state_dict(checkpoint['state_dict']) # load pretrain
 base_model = stacked_hourglass_nets.module
 
 
-
 class PoseFeatureNet(nn.Module):
     def __init__(self, base_model=base_model):
         super(PoseFeatureNet, self).__init__()
@@ -31,6 +27,7 @@ class PoseFeatureNet(nn.Module):
         self.inplanes = base_model.inplanes
         self.num_feats = base_model.num_feats
         self.num_stacks = base_model.num_stacks
+        self.num_classes = classes
 
         self.conv1 = base_model.conv1
         self.bn1 = base_model.bn1
@@ -48,10 +45,13 @@ class PoseFeatureNet(nn.Module):
         self.score_ = base_model.score_
 
     def forward(self, x):
-        # TODO: (to think)
-        # feature maps(256 channels) v.s. result confidence maps(16 channels),
-        # what's the difference between them w.r.t. the information contained in them?
-        out = []
+        # TODO:
+        # Decide which layer to extract pose_feature from
+        # Now I just experiment with hourglass_out first
+
+        hourglass_out = []
+        pose_feature = []
+
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
@@ -61,19 +61,18 @@ class PoseFeatureNet(nn.Module):
         x = self.layer2(x)
         x = self.layer3(x)
 
-        fc_feature = []
         for i in range(self.num_stacks):
             y = self.hg[i](x)
-            fc_feature.append(y)
             y = self.res[i](y)
             y = self.fc[i](y)
+            pose_feature.append(y)
 
             score = self.score[i](y)
-            out.append(score)
+            hourglass_out.append(score)
             if i < self.num_stacks-1:
                 fc_ = self.fc_[i](y)
                 score_ = self.score_[i](score)
                 x = x + fc_ + score_
 
-        #return out
-        return fc_feature
+        #return pose_feature
+        return hourglass_out
