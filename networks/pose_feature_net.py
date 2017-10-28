@@ -6,13 +6,15 @@ import torch.nn as nn
 import pose.models as models
 import pose.datasets as datasets
 
+from settings.paths_and_names import paths_names_instance
+
 
 # parameters
 arch = 'hg'
 stacks = 8
 blocks = 1
 classes = 16
-weights_path = '/home/ubuntu/cvlab/meego/pytorch-pose/pretrained_weights/hg_s8_b1/model_best.pth.tar'
+weights_path = paths_names_instance.STACKED_HG_WEIGHTS_PATH
 
 # construct the base Stacked Hourglass Nets model
 stacked_hourglass_nets = models.__dict__[arch](num_stacks=stacks, num_blocks=blocks, num_classes=classes)
