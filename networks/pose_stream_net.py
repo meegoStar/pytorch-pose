@@ -6,9 +6,6 @@ from pose_feature_net import PoseFeatureNet
 import resnet
 
 
-SUB_JHMDB_CLASSES = 12  # sub JHMDB contains 12 classes
-
-
 def convert_conv1_weight(conv1_weight, original_channels_num=3, new_channels_num=10):
     weight_sum = 0.
     for i in range(original_channels_num):
@@ -50,10 +47,10 @@ def make_pose_resnet(num_classes, input_channels):
 
 
 class PoseStreamNet(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes):
         super(PoseStreamNet, self).__init__()
 
-        self.num_classes = SUB_JHMDB_CLASSES
+        self.num_classes = num_classes
         self.pose_feature_net = PoseFeatureNet()
 
         self.upsample_1 = nn.Upsample(scale_factor=4, mode='bilinear')
