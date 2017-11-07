@@ -2,6 +2,14 @@ class PathsAndNames():
     def __init__(self):
         self.STACKED_HG_WEIGHTS_PATH = ''
 
+        self.TRAIN_DICT_PATH = ''
+        self.TEST_DICT_PATH = ''
+
+        self.JHMDB_RGB_ROOT = ''
+
+        self.CHECKPOINT_NAME = ''
+        self.BEST_MODEL_NAME = ''
+
         #self.TRAIN_ROOT_DIR = ''
         #self.VAL_ROOT_DIR = ''
 
@@ -15,6 +23,3 @@ class PathsAndNames():
 
         #self.TRAINING_CSV_NAME = ''
         #self.TESTING_CSV_NAME = ''
-
-        #self.CHECKPOINT_NAME = ''
-        #self.BEST_MODEL_NAME = ''
