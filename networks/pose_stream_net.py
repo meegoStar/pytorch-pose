@@ -47,7 +47,7 @@ def make_pose_resnet(num_classes, input_channels):
 
 
 class PoseStreamNet(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes, freeze_pose_feature_net=True):
         super(PoseStreamNet, self).__init__()
 
         self.num_classes = num_classes
@@ -59,6 +59,13 @@ class PoseStreamNet(nn.Module):
         # features extracted by PoseFeatureNet
         input_channels = self.pose_feature_net.num_classes
         self.pose_resnet = make_pose_resnet(self.num_classes, input_channels)
+
+        if freeze_pose_feature_net:
+            self.freeze_pose_feature_net()
+
+    def freeze_pose_feature_net(self):
+        for param in self.pose_feature_net.parameters():
+            param.requires_grad = False
 
     def forward(self, x):
         pose_feature_list = self.pose_feature_net(x)

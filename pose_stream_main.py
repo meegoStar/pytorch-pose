@@ -29,12 +29,13 @@ if __name__ == '__main__':
     # Hyper parameters
     epochs = 50
     batch_size = 16
-    lr = 1e-4
+    lr = 1e-5
     num_classes = SUB_JHMDB_CLASSES
     num_workers = 2
+    freeze_pose_feature_net = False
 
     # Initialize
-    pose_stream_net = PoseStreamNet(num_classes)
+    pose_stream_net = PoseStreamNet(num_classes, freeze_pose_feature_net=freeze_pose_feature_net)
     pose_stream_net = nn.DataParallel(pose_stream_net).cuda()
 
     args = parser.parse_args()

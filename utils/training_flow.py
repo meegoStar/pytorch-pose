@@ -79,11 +79,16 @@ class TrainingFlow():
         self.criterion = nn.CrossEntropyLoss().cuda()
 
     def set_optimizer(self):
-        self.optimizer = Adam(self.model.parameters(), lr=self.lr)
-        #self.optimizer = SGD(self.model.parameters(), lr=self.lr, momentum=0.9)
+        if self.model.module.freeze_pose_feature_net:
+            params_to_optimize = self.model.module.pose_resnet.parameters()
+        else:
+            params_to_optimize = self.model.parameters()
+
+        self.optimizer = Adam(params_to_optimize, lr=self.lr)
+        #self.optimizer = SGD(params_to_optimize, lr=self.lr, momentum=0.9)
 
     def set_scheduler(self):
-        self.scheduler = lr_scheduler.ReduceLROnPlateau(self.optimizer, 'min', patience=0, verbose=True)
+        self.scheduler = lr_scheduler.ReduceLROnPlateau(self.optimizer, 'max', patience=0, verbose=True)
 
     def resume(self):
         args = self.args
@@ -106,7 +111,7 @@ class TrainingFlow():
         self.prepare_dataloaders()
         self.set_loss_function()
         self.set_optimizer()
-        #self.set_scheduler()
+        self.set_scheduler()
         self.resume()
 
     def display_epoch_info(self, train=True):
@@ -339,14 +344,14 @@ class TrainingFlow():
         epochs = self.epochs
         for self.epoch in range(self.start_epoch + 1, epochs + 1):
             self.train_one_epoch() # train for one epoch
-            prec1, val_loss = self.validate_one_epoch() # evaluate on validation set
+            val_prec1, val_loss = self.validate_one_epoch() # evaluate on validation set
 
             # compute video level accuracy
             self.compute_video_accuracy()
 
-            # self.scheduler.step(val_loss) # call lr_scheduler
+            self.scheduler.step(val_prec1) # call lr_scheduler
 
             # record best prec@1 and save checkpoint
-            self.is_best = prec1 > self.best_prec1
-            self.best_prec1 = max(prec1, self.best_prec1)
+            self.is_best = val_prec1 > self.best_prec1
+            self.best_prec1 = max(val_prec1, self.best_prec1)
             self.save_checkpoint()
