@@ -4,20 +4,27 @@ import os
 import torch
 from torch.utils.data import Dataset
 
+
 class JhmdbRgbData(Dataset):
-    def __init__(self, jhmdb_dict, root_dir, transform=None, train=True):
-        self.root_dir = root_dir
-        self.transform = transform
+    def __init__(self, jhmdb_dict, root_dir, transform=None, train=True, cropped_version=False):
         self.keys = jhmdb_dict.keys()
         self.values = jhmdb_dict.values()
+        self.root_dir = root_dir
+        self.transform = transform
         self.train = train # set dataset instance to training or testing mode
+
+        if cropped_version:
+            self.extension = '.jpg'  # cropped version images are saved in '.jpg'
+        else:
+            self.extension = '.png'  # no-cropped version images are saved in '.png'
 
     def __len__(self):
         return len(self.keys)
 
     def __getitem__(self, idx):
         key = self.keys[idx]
-        img_path = os.path.join(self.root_dir, key)
+        key_without_extension = key[:key.rfind('.')]
+        img_path = os.path.join(self.root_dir, key_without_extension + self.extension)
 
         with Image.open(img_path) as img:
             transformed_img = self.transform(img)

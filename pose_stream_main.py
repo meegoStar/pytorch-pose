@@ -18,8 +18,8 @@ if __name__ == '__main__':
     # Parameters
     os.environ['OMP_NUM_THREADS'] = '1' # for preventing dataloader stuck issue
     SUB_JHMDB_CLASSES = 12  # sub JHMDB contains 12 classes
-    TRAIN_DICT_PATH = paths_names_instance.TRAIN_DICT_PATH
-    TEST_DICT_PATH = paths_names_instance.TEST_DICT_PATH
+    JHMDB_TRAIN_DICT_PATH = paths_names_instance.JHMDB_TRAIN_DICT_PATH
+    JHMDB_TEST_DICT_PATH = paths_names_instance.JHMDB_TEST_DICT_PATH
     JHMDB_RGB_ROOT = paths_names_instance.JHMDB_RGB_ROOT
     CHECKPOINT_NAME = paths_names_instance.CHECKPOINT_NAME
     BEST_MODEL_NAME = paths_names_instance.BEST_MODEL_NAME
@@ -41,8 +41,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     training_flow = TrainingFlow(epochs, batch_size, lr, num_classes,
                                  pose_stream_net, num_workers,
-                                 train_dict_path=TRAIN_DICT_PATH,
-                                 test_dict_path=TEST_DICT_PATH,
+                                 train_dict_path=JHMDB_TRAIN_DICT_PATH,
+                                 test_dict_path=JHMDB_TEST_DICT_PATH,
                                  jhmdb_rgb_root=JHMDB_RGB_ROOT,
                                  checkpoint_name=CHECKPOINT_NAME,
                                  best_model_name=BEST_MODEL_NAME,
