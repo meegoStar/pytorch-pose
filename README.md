@@ -1,6 +1,9 @@
 # What is this branch for?
 This branch, **feature-extraction**, is aimed for using **Stacked Hourglass Nets** as a pose feature extraction component in an end-to-end pose-based action recognition model. Currently it is still in experimenting stage. Several experiments have been conducted on `Sub-JHMDB` and `PennAction`.
 
+## Installation
+See below the readme texts of the original pytorch-pose repository for installation guides.
+
 ## Settings for experiments
 Paths to data of datasets and similar settings are saved in `settings/paths_and_names.py`, and visible GPUs to PyTorch are set in `settings/visible_gpus.py`. These two files are excluded by `settings/.gitignore` since these settings are different from one computer to another. You can see `settings/paths_and_names_example.py` and `settings/visible_gpus_example.py` for examples and to have an idea of how to add these two setting files.
 
