@@ -5,7 +5,7 @@ This branch, **feature-extraction**, is aimed for using **Stacked Hourglass Nets
 Paths to data of datasets and similar settings are saved in `settings/paths_and_names.py`, and visible GPUs to PyTorch are set in `settings/visible_gpus.py`. These two files are excluded by `settings/.gitignore` since these settings are different from one computer to another. You can see `settings/paths_and_names_example.py` and `settings/visible_gpus_example.py` for examples and to have an idea of how to add these two setting files.
 
 ## Experiments on Sub-JHMDB
-To conduct experiments on **Sub-JHMDB**, please run `python pose_stream_main_simplified.py`. You can overwrite the hyper parameters in `pose_stream_main_simplified.py` to tune the model.
+To conduct experiments on **Sub-JHMDB**, please run `python pose_stream_main_subjhmdb.py`. You can overwrite the hyper parameters in `pose_stream_main_subjhmdb.py` to tune the model.
 
 ## Experiments on PennAction
 To conduct experiments on **PennAction**, please run `python pose_stream_main_pennaction.py`. You can overwrite the hyper parameters in `pose_stream_main_pennaction.py` to tune the model.
