@@ -1,9 +1,19 @@
 # What is this branch for?
-This branch, **feature-extraction**, is aimed for using **Stacked Hourglass Nets** as a pose feature extraction component in an end-to-end training model. Currently it is still in experimenting stage.
+This branch, **feature-extraction**, is aimed for using **Stacked Hourglass Nets** as a pose feature extraction component in an end-to-end pose-based action recognition model. Currently it is still in experimenting stage. Several experiments have been conducted on `Sub-JHMDB` and `PennAction`.
+
+## Settings for experiments
+Paths to data of datasets and similar settings are saved in `settings/paths_and_names.py`, and visible GPUs to PyTorch are set in `settings/visible_gpus.py`. These two files are excluded by `settings/.gitignore` since these settings are different from one computer to another. You can see `settings/paths_and_names_example.py` and `settings/visible_gpus_example.py` for examples and to have an idea of how to add these two setting files.
+
+## Experiments on Sub-JHMDB
+To conduct experiments on **Sub-JHMDB**, please run `python pose_stream_main_simplified.py`. You can overwrite the hyper parameters in `pose_stream_main_simplified.py` to tune the model.
+
+## Experiments on PennAction
+To conduct experiments on **PennAction**, please run `python pose_stream_main_pennaction.py`. You can overwrite the hyper parameters in `pose_stream_main_pennaction.py` to tune the model.
 
 
 
-# PyTorch-Pose(Original repo)
+---------------------------------------------------------------------------------------------------------------------
+# PyTorch-Pose (original repo)
 
 PyTorch-Pose is a PyTorch implementation of the general pipeline for 2D single human pose estimation. The aim is to provide the interface of the training/inference/evaluation, and the dataloader with various data augmentation options for the most popular human pose databases (e.g., [the MPII human pose](http://human-pose.mpi-inf.mpg.de), [LSP](http://www.comp.leeds.ac.uk/mat4saj/lsp.html) and [FLIC](http://bensapp.github.io/flic-dataset.html)).
 
